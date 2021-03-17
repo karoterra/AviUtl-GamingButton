@@ -34,6 +34,34 @@ AviUtl 拡張編集の script フォルダに以下のファイルをコピーします。
 - ease-in
 - ease-out
 - ease-in-out
+- easeInSine
+- easeOutSine
+- easeInOutSine
+- easeInQuad
+- easeOutQuad
+- easeInOutQuad
+- easeInCubic
+- easeOutCubic
+- easeInOutCubic
+- easeInQuart
+- easeOutQuart
+- easeInOutQuart
+- easeInQuint
+- easeOutQuint
+- easeInOutQuint
+- easeInExpo
+- easeOutExpo
+- easeInOutExpo
+- easeInCirc
+- easeOutCirc
+- easeInOutCirc
+- easeInBack
+- easeOutBack
+- easeInOutBack
+
+これらのサンプルは以下を参考にしました。
+- [\<easing-function\> - CSS: カスケーディングスタイルシート | MDN](https://developer.mozilla.org/ja/docs/Web/CSS/easing-function)
+- [イージング関数チートシート](https://easings.net/ja)
 
 ### カスタマイズ
 [cubic-bezier.com](https://cubic-bezier.com/)
