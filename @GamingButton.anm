@@ -1,0 +1,20 @@
+@色相変化
+--track0:速度,-100,100,1
+--track1:オフセット,0,360,0
+local speed = obj.track0
+local offset = obj.track1
+local hue = (obj.time / 0.4 * 360 * speed + offset) % 360
+obj.effect("色調補正", "色相", hue)
+
+@サイズ変化
+--track0:速度,-100,100,1
+--track1:拡大率,0,1000,100
+local speed = obj.track0
+local scale = obj.track1 / 100
+local CBE = require("CubicBezierEasing")
+local grows = {0, 0.1, 0, -0.1, 0, 0.2, 0, -0.05, 0.1, 0, 0}
+local index, t = math.modf(obj.time * speed * 10 % 10)
+local ratio = CBE.cubicBezierEasing(t, 0.25, 0.1, 0.25, 1)
+local st = grows[index + 1]
+local ed = grows[index + 2]
+obj.zoom = 1 + (st + (ed - st) * ratio) * scale

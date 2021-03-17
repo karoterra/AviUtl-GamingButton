@@ -1,0 +1,31 @@
+@ease
+local CBE = require("CubicBezierEasing")
+local index, t = math.modf(obj.getpoint("index"))
+local ratio = CBE.cubicBezierEasing(t, 0.25, 0.1, 0.25, 1)
+local st = obj.getpoint(index)
+local ed = obj.getpoint(index + 1)
+return st + (ed - st) * ratio
+
+@ease-in
+local CBE = require("CubicBezierEasing")
+local index, t = math.modf(obj.getpoint("index"))
+local ratio = CBE.cubicBezierEasing(t, 0.42, 0, 1, 1)
+local st = obj.getpoint(index)
+local ed = obj.getpoint(index + 1)
+return st + (ed - st) * ratio
+
+@ease-out
+local CBE = require("CubicBezierEasing")
+local index, t = math.modf(obj.getpoint("index"))
+local ratio = CBE.cubicBezierEasing(t, 0, 0, 0.58, 1)
+local st = obj.getpoint(index)
+local ed = obj.getpoint(index + 1)
+return st + (ed - st) * ratio
+
+@ease-in-out
+local CBE = require("CubicBezierEasing")
+local index, t = math.modf(obj.getpoint("index"))
+local ratio = CBE.cubicBezierEasing(t, 0.42, 0, 0.58, 1)
+local st = obj.getpoint(index)
+local ed = obj.getpoint(index + 1)
+return st + (ed - st) * ratio

@@ -1,0 +1,43 @@
+@CubicEquation
+--track0:a3,-5,5,1,0.01
+--track1:a2,-5,5,-1,0.01
+--track2:a1,-5,5,-1,0.01
+--track3:a0,-5,5,0,0.01
+
+local a3, a2, a1, a0 = obj.track0, obj.track1, obj.track2, obj.track3
+local CBE = require("CubicBezierEasing")
+local scale = 500
+
+obj.load("figure", "‰~", 0xffffff, 10)
+for x = -5, 5, 0.01 do
+    local y = a3 * x^3 + a2 * x^2 + a1 * x + a0
+    obj.ox = x * scale
+    obj.oy = -y * scale
+    obj.draw()
+end
+
+obj.load("figure", "‰~", 0xff0000, 10)
+local x_sol = CBE.solveCubic(a3, a2, a1, a0)
+for i, val in pairs(x_sol) do
+    obj.ox = val * scale
+    obj.oy = 0
+    obj.draw()
+end
+
+
+@CubicBezier
+--track0:x1,0,1,0.25,0.01
+--track1:y1,-5,5,0.1,0.01
+--track2:x2,0,1,0.25,0.01
+--track3:y2,-5,5,1.0,0.01
+
+local x1, y1, x2, y2 = obj.track0, obj.track1, obj.track2, obj.track3
+local CBE = require("CubicBezierEasing")
+
+obj.load("figure", "‰~", 0xffffff, 10)
+for x = 0, 1, 0.01 do
+    local y = CBE.cubicBezierEasing(x, x1, y1, x2, y2)
+    obj.ox = 500 * (x - 0.5)
+    obj.oy = 500 * (-y + 0.5)
+    obj.draw()
+end
