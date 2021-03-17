@@ -111,10 +111,10 @@ local function cubicBezierEasing(t, x1, y1, x2, y2)
 
     local x1_triple, x2_triple = x1 * 3, x2 * 3
     local cubic_solutions = solveCubic(1 + x1_triple - x2_triple, x2_triple - x1_triple - x1_triple, x1_triple, -t)
-    local s = 1
+    local s = 0
     for i, val in pairs(cubic_solutions) do
-        if 0 <= val and val <= 1 then
-            s = val
+        if 0 <= val + eps and val - eps <= 1 then
+            s = math.min(math.max(val, 0), 1)
             break
         end
     end
