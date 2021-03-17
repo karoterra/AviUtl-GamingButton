@@ -1,223 +1,83 @@
 @ease
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.25, 0.1, 0.25, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.25, 0.1, 0.25, 1)
 
 @ease-in
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.42, 0, 1, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.42, 0, 1, 1)
 
 @ease-out
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0, 0, 0.58, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0, 0, 0.58, 1)
 
 @ease-in-out
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.42, 0, 0.58, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.42, 0, 0.58, 1)
 
 @easeInSine
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.12, 0, 0.39, 0)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.12, 0, 0.39, 0)
 
 @easeOutSine
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.61, 1, 0.88, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.61, 1, 0.88, 1)
 
 @easeInOutSine
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.37, 0, 0.63, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.37, 0, 0.63, 1)
 
 @easeInQuad
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.11, 0, 0.5, 0)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.11, 0, 0.5, 0)
 
 @easeOutQuad
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.5, 1, 0.89, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.5, 1, 0.89, 1)
 
 @easeInOutQuad
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.45, 0, 0.55, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.45, 0, 0.55, 1)
 
 @easeInCubic
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.32, 0, 0.67, 0)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.32, 0, 0.67, 0)
 
 @easeOutCubic
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.33, 1, 0.68, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.33, 1, 0.68, 1)
 
 @easeInOutCubic
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.65, 0, 0.35, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.65, 0, 0.35, 1)
 
 @easeInQuart
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.5, 0, 0.75, 0)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.5, 0, 0.75, 0)
 
 @easeOutQuart
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.25, 1, 0.5, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.25, 1, 0.5, 1)
 
 @easeInOutQuart
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.76, 0, 0.24, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.76, 0, 0.24, 1)
 
 @easeInQuint
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.64, 0, 0.78, 0)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.64, 0, 0.78, 0)
 
 @easeOutQuint
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.22, 1, 0.36, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.22, 1, 0.36, 1)
 
 @easeInOutQuint
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.83, 0, 0.17, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.83, 0, 0.17, 1)
 
 @easeInExpo
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.7, 0, 0.84, 0)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.7, 0, 0.84, 0)
 
 @easeOutExpo
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.16, 1, 0.3, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.16, 1, 0.3, 1)
 
 @easeInOutExpo
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.87, 0, 0.13, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.87, 0, 0.13, 1)
 
 @easeInCirc
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.55, 0, 1, 0.45)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.55, 0, 1, 0.45)
 
 @easeOutCirc
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0, 0.55, 0.45, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0, 0.55, 0.45, 1)
 
 @easeInOutCirc
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.85, 0, 0.15, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.85, 0, 0.15, 1)
 
 @easeInBack
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.36, 0, 0.66, -0.56)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.36, 0, 0.66, -0.56)
 
 @easeOutBack
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.34, 1.56, 0.64, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.34, 1.56, 0.64, 1)
 
 @easeInOutBack
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.68, -0.6, 0.32, 1.6)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.68, -0.6, 0.32, 1.6)

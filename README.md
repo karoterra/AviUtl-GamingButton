@@ -69,14 +69,9 @@ AviUtl 拡張編集の script フォルダに以下のファイルをコピーします。
 書き換える箇所は以下の通りです。
 - 1行目
     - `@ease`を好きな名前に変える（例：`@イージング`）
-- 4行目
+- 2行目
     - 数値 `0.25, 0.1, 0.25, 1` を好きな値に変える（例：`0.68, -0.6, 0.32, 1.6`）
 ```lua
 @ease
-local CBE = require("CubicBezierEasing")
-local index, t = math.modf(obj.getpoint("index"))
-local ratio = CBE.cubicBezierEasing(t, 0.25, 0.1, 0.25, 1)
-local st = obj.getpoint(index)
-local ed = obj.getpoint(index + 1)
-return st + (ed - st) * ratio
+return require("CubicBezierEasing").trackbar(obj, 0.25, 0.1, 0.25, 1)
 ```

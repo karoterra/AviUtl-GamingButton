@@ -124,7 +124,15 @@ local function cubicBezierEasing(t, x1, y1, x2, y2)
 end
 
 --[[
-    AviUtlトラックバー用(重い)
+    AviUtlトラックバー用
+    引数：
+        obj：AviUtlスクリプトのobj
+        x1：制御点1のx座標(0 <= x1 <= 1)
+        y1：制御点1のy座標
+        x2：制御点2のx座標(0 <= x2 <= 1)
+        y2：制御点2のy座標
+    戻り値：
+        トラックバーの現在値
 ]]
 local function trackbar(obj, x1, y1, x2, y2)
     local index, t = math.modf(obj.getpoint("index"))
@@ -139,4 +147,5 @@ return {
     solveQuadratic = solveQuadratic,
     solveCubic = solveCubic,
     cubicBezierEasing = cubicBezierEasing,
+    trackbar = trackbar,
 }
