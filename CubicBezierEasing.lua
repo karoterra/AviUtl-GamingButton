@@ -133,6 +133,51 @@ local function cubicBezierEasing(t, x1, y1, x2, y2)
 end
 
 --[[
+    複数の3次ベジェ曲線を使ったイージング関数
+    制御点は(0,0), (x1,y1), (x2,y2), ..., (xn,yn), (1,1)
+    引数：
+        t：時間の割合(0 <= t <= 1)
+        points：制御点(x1,y1,...,xn,yn)の配列
+    戻り値：出力割合。t=0のとき0、t=1のとき1
+]]
+local function multiCubicBezierEasing(t, points)
+    if #points < 4 then
+        return 0
+    end
+    local num_bezier = math.floor((#points - 4) / 6) + 1
+    local bezier_index = 1
+    for i = 2, num_bezier do
+        if t < points[6 * i - 7] then
+            break
+        end
+        bezier_index = bezier_index + 1
+    end
+
+    local point_index = 6 * bezier_index - 7
+    local x0 = (bezier_index == 1) and 0 or points[point_index]
+    local y0 = (bezier_index == 1) and 0 or points[point_index + 1]
+    local x1 = points[point_index + 2]
+    local y1 = points[point_index + 3]
+    local x2 = points[point_index + 4]
+    local y2 = points[point_index + 5]
+    local x3 = (bezier_index == num_bezier) and 1 or points[point_index + 6]
+    local y3 = (bezier_index == num_bezier) and 1 or points[point_index + 7]
+    x0 = clip(x0, 0, 1)
+    x3 = clip(x3, 0, 1)
+    x1 = clip(x1, x0, x3)
+    x2 = clip(x2, x0, x3)
+
+    local dx, dy = x3 - x0, y3 - y0
+    local ratio = cubicBezierEasing(
+        (t - x0) / dx,
+        (x1 - x0) / dx, (y1 - y0) / dy,
+        (x2 - x0) / dx, (y2 - y0) / dy
+    )
+    ratio = ratio * dy + y0
+    return ratio
+end
+
+--[[
     AviUtlトラックバー用
     引数：
         obj：AviUtlスクリプトのobj
@@ -151,6 +196,22 @@ local function trackbar(obj, x1, y1, x2, y2)
     return st + (ed - st) * ratio
 end
 
+--[[
+    AviUtlトラックバー用（マルチベジェ対応版）
+    引数：
+        obj：AviUtlスクリプトのobj
+        points：制御点(x1,y1,...,xn,yn)の配列
+    戻り値：
+        トラックバーの現在値
+]]
+local function trackbarMultiBezier(obj, points)
+    local index, t = math.modf(obj.getpoint("index"))
+    local ratio = multiCubicBezierEasing(t, points)
+    local st = obj.getpoint(index)
+    local ed = obj.getpoint(index + 1)
+    return st + (ed - st) * ratio
+end
+
 return {
     cbrt = cbrt,
     clip = clip,
@@ -158,5 +219,7 @@ return {
     solveQuadratic = solveQuadratic,
     solveCubic = solveCubic,
     cubicBezierEasing = cubicBezierEasing,
+    multiCubicBezierEasing = multiCubicBezierEasing,
     trackbar = trackbar,
+    trackbarMultiBezier = trackbarMultiBezier,
 }

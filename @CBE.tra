@@ -1,3 +1,5 @@
+-- 3次ベジェ曲線を使ったトラックバースクリプトのサンプル
+
 @ease
 return require("CubicBezierEasing").trackbar(obj, 0.25, 0.1, 0.25, 1)
 
@@ -81,3 +83,14 @@ return require("CubicBezierEasing").trackbar(obj, 0.34, 1.56, 0.64, 1)
 
 @easeInOutBack
 return require("CubicBezierEasing").trackbar(obj, 0.68, -0.6, 0.32, 1.6)
+
+-- 複数の3次ベジェ曲線を使ったトラックバースクリプトのサンプル
+
+@MultiBezierSample1
+return require("CubicBezierEasing").trackbarMultiBezier(obj, {
+    0.025, 0.144, 0.113, 0.194,  -- 1本目のベジェ曲線の制御点
+    0.304, 0.188,                -- 1本目と2本目の接続点
+    0.319, 0.538, 0.661, 0.191,  -- 2本目のベジェ曲線の制御点
+    0.670, 0.594,                -- 2本目と3本目の接続点
+    0.737, 0.098, 0.984, 0.442   -- 3本目のベジェ曲線の制御点
+})
