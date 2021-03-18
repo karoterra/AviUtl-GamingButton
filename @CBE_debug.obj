@@ -33,14 +33,26 @@ end
 
 local x1, y1, x2, y2 = obj.track0, obj.track1, obj.track2, obj.track3
 local CBE = require("CubicBezierEasing")
+local size = 500
+local n_plots = 256
+
+obj.load("figure", "éläpå`", 0x002090, 1)
+obj.drawpoly(-size/2,-size/2,0, size/2,-size/2,0, size/2,size/2,0, -size/2,size/2,0)
 
 obj.load("figure", "â~", 0xffffff, 10)
-for x = 0, 1, 0.01 do
+for x = 0, 1, 1 / n_plots do
     local y = CBE.cubicBezierEasing(x, x1, y1, x2, y2)
-    obj.ox = 500 * (x - 0.5)
-    obj.oy = 500 * (-y + 0.5)
+    obj.ox = size * (x - 0.5)
+    obj.oy = size * (-y + 0.5)
     obj.draw()
 end
+
+obj.load("figure", "â~", 0xff0000, 10)
+obj.ox, obj.oy = size * (x1 - 0.5), size * (-y1 + 0.5)
+obj.draw()
+obj.ox, obj.oy = size * (x2 - 0.5), size * (-y2 + 0.5)
+obj.draw()
+
 
 @MultiCubicBeizer
 --track0:ÉTÉCÉY,0,5000,500
