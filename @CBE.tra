@@ -94,3 +94,12 @@ return require("CubicBezierEasing").trackbarMultiBezier(obj, {
     0.670, 0.594,                -- 2本目と3本目の接続点
     0.737, 0.098, 0.984, 0.442   -- 3本目のベジェ曲線の制御点
 })
+
+-- 中間点ごとに違う3次ベジェ曲線を使ったトラックバースクリプトのサンプル
+
+@ForEachKeyframeSample1
+return require("CubicBezierEasing").trackbarForEachKeyframe(obj, {
+    {1, 0, 0, 1},   -- 第1中間点のベジェ曲線
+    {0, 0, 1, 1},   -- 第2中間点のベジェ曲線
+    {0, 1, 1, 0},   -- 第3中間点のベジェ曲線
+})

@@ -212,6 +212,24 @@ local function trackbarMultiBezier(obj, points)
     return st + (ed - st) * ratio
 end
 
+--[[
+    AviUtlトラックバー用
+    中間点ごとに別のマルチベジェを使える
+    定義したベジェ曲線の数より中間点の方が多い場合はベジエ曲線を繰り返し使う
+    引数：
+        obj：AviUtlスクリプトのobj
+        beziers：各中間点で使うベジェのpoints
+    戻り値：トラックバーの現在値
+]]
+local function trackbarForEachKeyframe(obj, beziers)
+    local index, t = math.modf(obj.getpoint("index"))
+    local bezier_index = index % #beziers + 1
+    local ratio = multiCubicBezierEasing(t, beziers[bezier_index])
+    local st = obj.getpoint(index)
+    local ed = obj.getpoint(index + 1)
+    return st + (ed - st) * ratio
+end
+
 return {
     cbrt = cbrt,
     clip = clip,
@@ -222,4 +240,5 @@ return {
     multiCubicBezierEasing = multiCubicBezierEasing,
     trackbar = trackbar,
     trackbarMultiBezier = trackbarMultiBezier,
+    trackbarForEachKeyframe = trackbarForEachKeyframe,
 }
