@@ -13,6 +13,19 @@ local function cbrt(x)
 end
 
 --[[
+    xをクリッピングする
+]]
+local function clip(x, min, max)
+    if x < min then
+        x = min
+    end
+    if x > max then
+        x = max
+    end
+    return x
+end
+
+--[[
     1次方程式を解く (a1 x + a0 = 0)
     引数：方程式の係数
     戻り値：解の配列
@@ -102,19 +115,15 @@ end
     戻り値：出力割合。t=0のとき0、t=1のとき1
 ]]
 local function cubicBezierEasing(t, x1, y1, x2, y2)
-    if x1 < 0 or 1 < x1 then
-        return 0
-    end
-    if x2 < 0 or 1 < x2 then
-        return 0
-    end
+    x1 = clip(x1, 0, 1)
+    x2 = clip(x2, 0, 1)
 
     local x1_triple, x2_triple = x1 * 3, x2 * 3
     local cubic_solutions = solveCubic(1 + x1_triple - x2_triple, x2_triple - x1_triple - x1_triple, x1_triple, -t)
     local s = 0
     for i, val in pairs(cubic_solutions) do
         if 0 <= val + eps and val - eps <= 1 then
-            s = math.min(math.max(val, 0), 1)
+            s = clip(val, 0, 1)
             break
         end
     end
@@ -143,6 +152,8 @@ local function trackbar(obj, x1, y1, x2, y2)
 end
 
 return {
+    cbrt = cbrt,
+    clip = clip,
     solveLinear = solveLinear,
     solveQuadratic = solveQuadratic,
     solveCubic = solveCubic,
