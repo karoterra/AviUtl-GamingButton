@@ -42,7 +42,7 @@ form {
 
 form dl dt {
   width: 7em;
-  padding: 1px 0;
+  padding: 1px 1px;
   float: left;
   clear: both;
 }
@@ -61,5 +61,30 @@ form dl dd textarea {
 
 .bezier-preview {
   background-color: #fff;
+  border: 1px solid black;
+}
+
+#bezier-editor-form {
+  display: flex;
+}
+
+#bezier-editor-form div {
+  position: sticky;
+}
+
+#bezier-editor-form>div:first-child {
+  padding-right: 5px;
+}
+
+#bezier-editor-form>div:last-child {
+  width: 100%;
+}
+
+#bezier-editor-form dl dt {
+  width: 8em;
+}
+
+#bezier-editor-canvas {
+  background-color: white;
   border: 1px solid black;
 }

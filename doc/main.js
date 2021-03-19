@@ -1,10 +1,43 @@
+"use strict";
+
 function clip(x, min, max) {
   x = (x < min) ? min : x;
   x = (x > max) ? max : x;
   return x;
 }
 
-function drawCubicBezier(canvas, size, points) {
+function buildSingleBezierCode(points) {
+  const code = "return require(\"CubicBezierEasing\").trackbar(obj, " +
+    points.map(x => x.toFixed(2)).join(", ") +
+    ")";
+  return code;
+}
+
+function buildMultiBezierCode(points, heuristic) {
+  const points_str = points.map(x => x.toFixed(3));
+  let points_join = "";
+  if (heuristic) {  // 見やすく出力する
+    points_join = "{\n";
+    let index = 0;
+    while (index < points_str.length) {
+      points_join += "    " + points_str.slice(index, index + 4).join(", ") + "\n";
+      index += 4;
+      if (index >= points_str.length) {
+        break;
+      }
+      points_join += "    " + points_str.slice(index, index + 2).join(", ") + "\n";
+      index += 2;
+    }
+    points_join += "}";
+  } else {  // 1行で出力する
+    points_join = "{" + points_str.join(",") + "}";
+  }
+  const code = "return require(\"CubicBezierEasing\").trackbarMultiBezier(obj, " +
+    points_join + ")";
+  return code;
+}
+
+function drawCubicBezier(canvas, size, points, handle_size = 3) {
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -57,7 +90,7 @@ function drawCubicBezier(canvas, size, points) {
   ctx.fillStyle = "red"
   for (let i = 2; i < p.length - 2; i += 2) {
     ctx.beginPath();
-    ctx.ellipse(p[i], p[i+1], 3, 3, 0, 0, 2 * Math.PI);
+    ctx.ellipse(p[i], p[i+1], handle_size, handle_size, 0, 0, 2 * Math.PI);
     ctx.fill();
   }
 }
@@ -91,9 +124,7 @@ function convertBezierT() {
   new_coords[0] = clip(new_coords[0], 0, 1);
   new_coords[2] = clip(new_coords[2], 0, 1);
 
-  const output = "return require(\"CubicBezierEasing\").trackbar(obj, " +
-    new_coords.map(x => x.toFixed(2)).join(", ") +
-    ")";
+  const output = buildSingleBezierCode(new_coords);
   form.elements.output.value = output;
 
   drawCubicBezier(document.getElementById("bezierT-preview"), 250, new_coords);
@@ -143,32 +174,111 @@ function convertMultiBezier() {
     new_coords[i] = clip(new_coords[i], min, max);
     new_coords[i+2] = clip(new_coords[i+2], min, max);
   }
-  const new_coords_str = new_coords.map(x => x.toFixed(3));
-  let new_coords_join = "";
-  if (form.elements.heuristic.checked) {  // 見やすく出力する
-    new_coords_join = "{\n";
-    let index = 0;
-    while (index < new_coords_str.length) {
-      new_coords_join += "    " + new_coords_str.slice(index, index + 4).join(", ") + "\n";
-      index += 4;
-      if (index >= new_coords_str.length) {
-        break;
-      }
-      new_coords_join += "    " + new_coords_str.slice(index, index + 2).join(", ") + "\n";
-      index += 2;
-    }
-    new_coords_join += "}";
-  } else {  // 1行で出力する
-    new_coords_join = "{" + new_coords_str.join(",") + "}";
-  }
-  const output = "return require(\"CubicBezierEasing\").trackbarMultiBezier(obj, " +
-    new_coords_join + ")";
+
+  const output = buildMultiBezierCode(new_coords, form.elements.heuristic.checked);
   form.elements.output.value = output;
 
   drawCubicBezier(document.getElementById("multi-bezier-preview"), 250, new_coords);
 }
 
+class BezierEditor {
+  constructor(margin) {
+    this.form = document.getElementById("bezier-editor-form");
+    this.canvas = document.getElementById("bezier-editor-canvas");
+    this.num_bezier = this.form.elements.num;
+    this.heuristic = this.form.elements.heuristic;
+    this.size = this.canvas.width - margin;
+    this.ox = margin / 2;
+    this.oy = this.canvas.height - (this.canvas.height - this.size) / 2;
+    this.points = [[0.5, 0], [0.5, 1]];
+    this.dragging = false;
+    this.handle_size = 5;
+    this.dragIndex = 0;
+
+    this.canvas.addEventListener("mousedown", e => this.onMouseDown(e));
+    this.canvas.addEventListener("mouseup", e => this.onMouseUp(e));
+    this.canvas.addEventListener("mousemove", e => this.onMouseMove(e));
+    this.num_bezier.addEventListener("change", e => this.onChangeNum(e));
+    this.heuristic.addEventListener("change", e => this.outputCode());
+
+    this.draw();
+    this.outputCode();
+  }
+
+  draw() {
+    drawCubicBezier(this.canvas, this.size, this.points.flat(), this.handle_size);
+  }
+
+  outputCode() {
+    this.form.elements.output.value = buildMultiBezierCode(this.points.flat(), this.heuristic.checked);
+  }
+
+  calcMousePoint(e) {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const nx = (x - this.ox) / this.size;
+    const ny = (-y + this.oy) / this.size;
+    return [nx, ny];
+  }
+
+  clipX() {
+    for (let i = 0; i < this.points.length; i += 3) {
+      const min = (i - 1 < 0) ? 0 : this.points[i - 1][0];
+      const max = (i + 2 >= this.points.length) ? 1 : this.points[i + 2][0];
+      this.points[i][0] = clip(this.points[i][0], min, max);
+      this.points[i + 1][0] = clip(this.points[i + 1][0], min, max);
+    }
+  }
+
+  onMouseDown(e) {
+    const [x, y] = this.calcMousePoint(e);
+    for (let i = 0; i < this.points.length; i++) {
+      const p = this.points[i];
+      if (Math.sqrt((x-p[0])**2 + (y-p[1])**2) <= this.handle_size / this.size) {
+        this.dragging = true;
+        this.dragIndex = i;
+        break;
+      }
+    }
+  }
+
+  onMouseUp(e) {
+    this.dragging = false;
+    this.clipX();
+    this.draw();
+    this.outputCode();
+  }
+
+  onMouseMove(e) {
+    if (!this.dragging) {
+      return;
+    }
+
+    const p = this.calcMousePoint(e);
+    this.points[this.dragIndex] = p;
+
+    this.draw();
+    this.outputCode();
+  }
+
+  onChangeNum(e) {
+    const num = this.num_bezier.value;
+    const p = [[1 / (2 * num), 0], [1 / (2 * num), 1 / num]];
+    for (let i = 1; i < num; i++){
+      p.push([i / num, i / num]);
+      p.push([(i + 0.5) / num, i / num]);
+      p.push([(i + 0.5) / num, (i + 1) / num]);
+    }
+    this.points = p;
+
+    this.draw();
+    this.outputCode();
+  }
+}
+
 window.onload = function() {
+  // convert tool
   const bezierT_converter = document.getElementById("bezierT-converter");
   bezierT_converter.elements.size.addEventListener("change", convertBezierT);
   bezierT_converter.elements.anchor.addEventListener("change", convertBezierT);
@@ -183,5 +293,19 @@ window.onload = function() {
   multi_bezier_converter.elements.copy.addEventListener("click", () => {
     multi_bezier_converter.elements.output.select();
     document.execCommand("copy");
-  })
+  });
+
+  // bezier editor
+  const editor_canvas = document.getElementById("bezier-editor-canvas");
+  const editor_margin = 40;
+  editor_canvas.height = Math.round(window.innerHeight * 0.9);
+  editor_canvas.width = Math.round(editor_canvas.height / 2 + editor_margin);
+
+  const editor_form = document.getElementById("bezier-editor-form");
+  editor_form .elements.copy.addEventListener("click", () => {
+    editor_form.elements.output.select();
+    document.execCommand("copy");
+  });
+
+  const editor = new BezierEditor(editor_margin);
 }

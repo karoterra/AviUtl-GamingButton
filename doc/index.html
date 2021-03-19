@@ -22,6 +22,7 @@
               <li><a href="#convert-from-multi-bezier">マルチベジェ軌道からの変換</a></li>
             </ul>
           </li>
+          <li><a href="#bezier-editor">ベジエ曲線エディタ</a></li>
         </ul>
       </nav>
     </div>
@@ -36,12 +37,12 @@
           <p>
             以下のフォームを使うと、ティム氏のスクリプト「ベジエ曲線による軌道調整」で定義したベジェ曲線を本スクリプト用に変換できます。
           </p>
-          <form id="bezierT-converter">
+          <form id="bezierT-converter" autocomplete="off">
             <dl>
               <dt>グラフサイズ</dt>
-              <dd><input type="text" name="size" placeholder="200" autocomplete="off"></dd>
+              <dd><input type="text" name="size" placeholder="200"></dd>
               <dt>アンカー</dt>
-              <dd><input type="text" name="anchor" placeholder="{-50,50,50,-50}" autocomplete="off"></dd>
+              <dd><input type="text" name="anchor" placeholder="{-50,50,50,-50}"></dd>
             </dl>
             <dl>
               <dt>出力</dt>
@@ -60,11 +61,10 @@
           <p>
             以下のフォームを使うと、93氏のスクリプト「マルチベジェ軌道」で定義したベジェ曲線を本スクリプト用に変換できます。
           </p>
-          <form id="multi-bezier-converter">
+          <form id="multi-bezier-converter" autocomplete="off">
             <dl>
               <dt>制御点</dt>
-              <dd><input type="text" name="anchor" placeholder="{-70,180,-30,140,0,0,30,-140,70,-180}"
-                  autocomplete="off"></dd>
+              <dd><input type="text" name="anchor" placeholder="{-70,180,-30,140,0,0,30,-140,70,-180}"></dd>
               <dd><input type="text" name="dummy" style="display: none;"></dd>
             </dl>
             <dl>
@@ -87,6 +87,36 @@
             </dl>
           </form>
         </section>
+      </article>
+      <article id="bezier-editor">
+        <h1>ベジエ曲線エディタ</h1>
+        <form id="bezier-editor-form" autocomplete="off">
+          <div>
+            <canvas id="bezier-editor-canvas" width="260" height="500"></canvas>
+          </div>
+          <div>
+            <dl>
+              <dt>ベジェ曲線の本数</dt>
+              <dd><input type="number" name="num" min="1" step="1" value="1"></dd>
+            </dl>
+            <dl>
+              <dt>整形</dt>
+              <dd>
+                <label>
+                  <input type="checkbox" name="heuristic" checked>
+                  制御点リストに適度に改行を入れる
+                </label>
+              </dd>
+            </dl>
+            <dl>
+              <dt>出力</dt>
+              <dd><textarea name="output" readonly></textarea></dd>
+              <dt></dt>
+              <dd><button type="button" name="copy">クリップボードにコピー</button></dd>
+              <dd><input type="text" name="dummy" style="display: none;"></dd>
+            </dl>
+          </div>
+        </form>
       </article>
     </main>
   </div>
