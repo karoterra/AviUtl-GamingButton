@@ -277,6 +277,17 @@ class BezierEditor {
   }
 }
 
+function transitionPages(num) {
+  const articles = document.getElementsByTagName("article");
+  for (let i = 0; i < articles.length; i++) {
+    if (i == num) {
+      articles[i].style.display = "block";
+    } else {
+      articles[i].style.display = "none";
+    }
+  }
+}
+
 window.onload = function() {
   // convert tool
   const bezierT_converter = document.getElementById("bezierT-converter");
@@ -308,4 +319,18 @@ window.onload = function() {
   });
 
   const editor = new BezierEditor(editor_margin);
+
+  // ページ遷移
+  const pageNums = {
+    "#convert-tool": 0,
+    "#convert-from-bezierT": 0,
+    "#convert-from-multi-bezier": 0,
+    "#bezier-editor": 1,
+  };
+  const links = document.getElementsByTagName("nav")[0].getElementsByTagName("a");
+  Array.prototype.forEach.call(links, a => {
+    const href = a.getAttribute("href");
+    a.addEventListener("click", () => transitionPages(pageNums[href]));
+  });
+  transitionPages(0);
 }
