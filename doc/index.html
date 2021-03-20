@@ -45,8 +45,21 @@
               <dd><input type="text" name="anchor" placeholder="{-50,50,50,-50}"></dd>
             </dl>
             <dl>
+              <dt>出力タイプ</dt>
+              <dd>
+                <label>
+                  <input type="radio" name="output_type" value="script" checked>
+                  スクリプト
+                </label>
+                <label>
+                  <input type="radio" name="output_type" value="text">
+                  テキスト
+                </label>
+              </dd>
+            </dl>
+            <dl>
               <dt>出力</dt>
-              <dd><input type="text" name="output" readonly></dd>
+              <dd><textarea name="output" readonly></textarea></dd>
               <dt></dt>
               <dd><button type="button" name="copy">クリップボードにコピー</button></dd>
             </dl>
@@ -68,6 +81,17 @@
               <dd><input type="text" name="dummy" style="display: none;"></dd>
             </dl>
             <dl>
+              <dt>出力タイプ</dt>
+              <dd>
+                <label>
+                  <input type="radio" name="output_type" value="script" checked>
+                  スクリプト
+                </label>
+                <label>
+                  <input type="radio" name="output_type" value="text">
+                  テキスト
+                </label>
+              </dd>
               <dt>整形</dt>
               <dd>
                 <label>
@@ -100,6 +124,17 @@
               <dd><input type="number" name="num" min="1" step="1" value="1"></dd>
             </dl>
             <dl>
+              <dt>出力タイプ</dt>
+              <dd>
+                <label>
+                  <input type="radio" name="output_type" value="script" checked>
+                  スクリプト
+                </label>
+                <label>
+                  <input type="radio" name="output_type" value="text">
+                  テキスト
+                </label>
+              </dd>
               <dt>整形</dt>
               <dd>
                 <label>

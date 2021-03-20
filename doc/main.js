@@ -18,15 +18,13 @@ function buildMultiBezierCode(points, heuristic) {
   let points_join = "";
   if (heuristic) {  // 見やすく出力する
     points_join = "{\n";
-    let index = 0;
-    while (index < points_str.length) {
-      points_join += "    " + points_str.slice(index, index + 4).join(", ") + "\n";
-      index += 4;
-      if (index >= points_str.length) {
+    for (let i = 0; i < points_str.length; i += 2) {
+      points_join += "  " + points_str.slice(i, i + 4).join(", ") + "\n";
+      i += 4;
+      if (i >= points_str.length) {
         break;
       }
-      points_join += "    " + points_str.slice(index, index + 2).join(", ") + "\n";
-      index += 2;
+      points_join += "  " + points_str.slice(i, i + 2).join(", ") + "\n";
     }
     points_join += "}";
   } else {  // 1行で出力する
@@ -34,6 +32,29 @@ function buildMultiBezierCode(points, heuristic) {
   }
   const code = "return require(\"CubicBezierEasing\").trackbarMultiBezier(obj, " +
     points_join + ")";
+  return code;
+}
+
+function buildBezierCodeForTextObject(points, heuristic) {
+  const points_str = points.map(x => x.toFixed(3));
+  let points_join = "";
+  if (heuristic) {  // 見やすく出力する
+    points_join = "{\n";
+    for (let i = 0; i < points_str.length; i += 2) {
+      points_join += "  " + points_str.slice(i, i + 4).join(", ") + "\n";
+      i += 4;
+      if (i >= points_str.length) {
+        break;
+      }
+      points_join += "  " + points_str.slice(i, i + 2).join(", ") + "\n";
+    }
+    points_join += "}";
+  } else {  // シンプルに出力する
+    points_join = "{" + points_str.join(",") + "}";
+  }
+  const code = `<?
+b = {${points_join}}
+require("CubicBezierEasing").easings:set(obj, b)?>`;
   return code;
 }
 
@@ -95,98 +116,142 @@ function drawCubicBezier(canvas, size, points, handle_size = 3) {
   }
 }
 
-function convertBezierT() {
-  const form = document.getElementById("bezierT-converter");
+class BezierTConverter {
+  constructor() {
+    this.form = document.getElementById("bezierT-converter");
+    this.canvas = document.getElementById("bezierT-preview");
 
-  if (!(form.elements.size.value) || !(form.elements.anchor.value)) {
-    form.elements.output.value = "サイズとアンカーを入力してください";
-    return;
+    this.form.size.addEventListener("change", e => this.convert());
+    this.form.anchor.addEventListener("change", e => this.convert());
+    Array.prototype.forEach.call(this.form.output_type, r => {
+      r.addEventListener("change", e => this.convert());
+    });
+    this.form.copy.addEventListener("click", e => {
+      this.form.output.select();
+      document.execCommand("copy");
+    });
   }
 
-  const size = parseFloat(form.elements.size.value);
-  let anchor = form.elements.anchor.value;
-  anchor = anchor.replace(" ", "");
-  anchor = anchor.replace("{", "");
-  anchor = anchor.replace("}", "");
-  const input_coords = anchor.split(",").map(x => parseFloat(x));
-  if (input_coords.length != 4) {
-    form.elements.output.value = "アンカーの数値が4個ではありません";
-    return;
+  convert() {
+    if (!(this.form.size.value) || !(this.form.anchor.value)) {
+      this.form.output.value = "サイズとアンカーを入力してください";
+      return;
+    }
+
+    const size = parseFloat(this.form.size.value);
+    let anchor = this.form.anchor.value;
+    anchor = anchor.replace(" ", "");
+    anchor = anchor.replace("{", "");
+    anchor = anchor.replace("}", "");
+    const input_coords = anchor.split(",").map(x => parseFloat(x));
+    if (input_coords.length != 4) {
+      this.form.output.value = "アンカーの数値が4個ではありません";
+      return;
+    }
+    if (input_coords.some(x => isNaN(x))) {
+      this.form.output.value = "アンカーに数値ではない要素があります";
+      return;
+    }
+    input_coords[1] *= -1;
+    input_coords[3] *= -1;
+
+    const new_coords = input_coords.map(x => x / size + 0.5);
+    new_coords[0] = clip(new_coords[0], 0, 1);
+    new_coords[2] = clip(new_coords[2], 0, 1);
+
+    switch (this.form.output_type.value) {
+      case "script":
+        this.form.output.value = buildSingleBezierCode(new_coords);
+        break;
+      case "text":
+        this.form.output.value = buildBezierCodeForTextObject(new_coords, false);
+        break;
+    }
+
+    drawCubicBezier(this.canvas, 250, new_coords);
   }
-  if (input_coords.some(x => isNaN(x))) {
-    form.elements.output.value = "アンカーに数値ではない要素があります";
-    return;
-  }
-  input_coords[1] *= -1;
-  input_coords[3] *= -1;
-
-  const new_coords = input_coords.map(x => x / size + 0.5);
-  new_coords[0] = clip(new_coords[0], 0, 1);
-  new_coords[2] = clip(new_coords[2], 0, 1);
-
-  const output = buildSingleBezierCode(new_coords);
-  form.elements.output.value = output;
-
-  drawCubicBezier(document.getElementById("bezierT-preview"), 250, new_coords);
 }
 
-function convertMultiBezier() {
-  const form = document.getElementById("multi-bezier-converter");
+class MultiBezierConverter {
+  constructor() {
+    this.form = document.getElementById("multi-bezier-converter");
+    this.canvas = document.getElementById("multi-bezier-preview");
 
-  if (!(form.elements.anchor.value)) {
-    form.elements.output.value = "";
-    return;
+    this.form.anchor.addEventListener("change", e => this.convert());
+    Array.prototype.forEach.call(this.form.output_type, r => {
+      r.addEventListener("change", e => this.convert());
+    });
+    this.form.heuristic.addEventListener("change", e => this.convert());
+    this.form.copy.addEventListener("click", e => {
+      this.form.output.select();
+      document.execCommand("copy");
+    });
   }
 
-  // 数値の抽出
-  let anchor = form.elements.anchor.value;
-  anchor = anchor.replace(" ", "");
-  anchor = anchor.replace("{", "");
-  anchor = anchor.replace("}", "");
-  const input_coords = anchor.split(",").map(x => parseInt(x));
-  if (input_coords.some(x => isNaN(x))) {
-    form.elements.output.value = "アンカーに数値ではない要素があります";
-    return;
-  }
-  // y座標の反転
-  for (let i = 1; i < input_coords.length; i += 2) {
-    input_coords[i] *= -1;
-  }
-  // ポイント数が3,4の時の対応
-  const ends = [];
-  for (let i = 4; i < input_coords.length; i += 6) {
-    ends.push([input_coords[i], input_coords[i + 1]]);
-  }
-  if (ends.length >= 3) {
-    const poped = ends.splice(1, 1);
-    ends.push(poped[0]);
-    for (let i = 0; i < ends.length; i++) {
-      input_coords[6*i+4] = ends[i][0];
-      input_coords[6*i+5] = ends[i][1];
+  convert() {
+    if (!(this.form.anchor.value)) {
+      this.form.output.value = "";
+      return;
     }
+
+    // 数値の抽出
+    let anchor = this.form.anchor.value;
+    anchor = anchor.replace(" ", "");
+    anchor = anchor.replace("{", "");
+    anchor = anchor.replace("}", "");
+    const input_coords = anchor.split(",").map(x => parseInt(x));
+    if (input_coords.some(x => isNaN(x))) {
+      this.form.output.value = "アンカーに数値ではない要素があります";
+      return;
+    }
+    // y座標の反転
+    for (let i = 1; i < input_coords.length; i += 2) {
+      input_coords[i] *= -1;
+    }
+    // ポイント数が3,4の時の対応
+    const ends = [];
+    for (let i = 4; i < input_coords.length; i += 6) {
+      ends.push([input_coords[i], input_coords[i + 1]]);
+    }
+    if (ends.length >= 3) {
+      const poped = ends.splice(1, 1);
+      ends.push(poped[0]);
+      for (let i = 0; i < ends.length; i++) {
+        input_coords[6*i+4] = ends[i][0];
+        input_coords[6*i+5] = ends[i][1];
+      }
+    }
+
+    const new_coords = input_coords.map(x => x / 400 + 0.5);
+    // 制御点のx座標をクリッピング
+    for (let i = 0; i < new_coords.length; i += 6) {
+      const min = ((i - 2) < 0) ? 0 : new_coords[i - 2];
+      const max = ((i + 4) >= new_coords.length) ? 1 : new_coords[i + 4];
+      new_coords[i] = clip(new_coords[i], min, max);
+      new_coords[i+2] = clip(new_coords[i+2], min, max);
+    }
+
+    const heuristic = this.form.heuristic.checked;
+    switch (this.form.output_type.value) {
+      case "script":
+        this.form.output.value = buildMultiBezierCode(new_coords, heuristic);
+        break;
+      case "text":
+        this.form.output.value = buildBezierCodeForTextObject(new_coords, heuristic);
+        break;
+    }
+
+    drawCubicBezier(this.canvas, 250, new_coords);
   }
-
-  const new_coords = input_coords.map(x => x / 400 + 0.5);
-  // 制御点のx座標をクリッピング
-  for (let i = 0; i < new_coords.length; i += 6) {
-    const min = ((i - 2) < 0) ? 0 : new_coords[i - 2];
-    const max = ((i + 4) >= new_coords.length) ? 1 : new_coords[i + 4];
-    new_coords[i] = clip(new_coords[i], min, max);
-    new_coords[i+2] = clip(new_coords[i+2], min, max);
-  }
-
-  const output = buildMultiBezierCode(new_coords, form.elements.heuristic.checked);
-  form.elements.output.value = output;
-
-  drawCubicBezier(document.getElementById("multi-bezier-preview"), 250, new_coords);
 }
 
 class BezierEditor {
   constructor(margin) {
     this.form = document.getElementById("bezier-editor-form");
     this.canvas = document.getElementById("bezier-editor-canvas");
-    this.num_bezier = this.form.elements.num;
-    this.heuristic = this.form.elements.heuristic;
+    this.num_bezier = this.form.num;
+    this.output_type = this.form.output_type;
+    this.heuristic = this.form.heuristic;
     this.size = this.canvas.width - margin;
     this.ox = margin / 2;
     this.oy = this.canvas.height - (this.canvas.height - this.size) / 2;
@@ -199,7 +264,14 @@ class BezierEditor {
     this.canvas.addEventListener("mouseup", e => this.onMouseUp(e));
     this.canvas.addEventListener("mousemove", e => this.onMouseMove(e));
     this.num_bezier.addEventListener("change", e => this.onChangeNum(e));
+    Array.prototype.forEach.call(this.output_type, r => {
+      r.addEventListener("change", e => this.outputCode());
+    });
     this.heuristic.addEventListener("change", e => this.outputCode());
+    this.form.copy.addEventListener("click", () => {
+      this.form.output.select();
+      document.execCommand("copy");
+    })
 
     this.draw();
     this.outputCode();
@@ -210,7 +282,15 @@ class BezierEditor {
   }
 
   outputCode() {
-    this.form.elements.output.value = buildMultiBezierCode(this.points.flat(), this.heuristic.checked);
+    const points = this.points.flat();
+    const heuristic = this.heuristic.checked;
+    switch (this.output_type.value) {
+      case "script":
+        this.form.output.value = buildMultiBezierCode(points, heuristic);
+        break;
+      case "text":
+        this.form.output.value = buildBezierCodeForTextObject(points, heuristic);
+    }
   }
 
   calcMousePoint(e) {
@@ -289,34 +369,14 @@ function transitionPages(num) {
 }
 
 window.onload = function() {
-  // convert tool
-  const bezierT_converter = document.getElementById("bezierT-converter");
-  bezierT_converter.elements.size.addEventListener("change", convertBezierT);
-  bezierT_converter.elements.anchor.addEventListener("change", convertBezierT);
-  bezierT_converter.elements.copy.addEventListener("click", () => {
-    bezierT_converter.elements.output.select();
-    document.execCommand("copy");
-  });
-
-  const multi_bezier_converter = document.getElementById("multi-bezier-converter");
-  multi_bezier_converter.elements.anchor.addEventListener("change", convertMultiBezier);
-  multi_bezier_converter.elements.heuristic.addEventListener("change", convertMultiBezier);
-  multi_bezier_converter.elements.copy.addEventListener("click", () => {
-    multi_bezier_converter.elements.output.select();
-    document.execCommand("copy");
-  });
+  const bezierTConverter = new BezierTConverter();
+  const multiBezierConverter = new MultiBezierConverter();
 
   // bezier editor
   const editor_canvas = document.getElementById("bezier-editor-canvas");
   const editor_margin = 40;
   editor_canvas.height = Math.round(window.innerHeight * 0.9);
   editor_canvas.width = Math.round(editor_canvas.height / 2 + editor_margin);
-
-  const editor_form = document.getElementById("bezier-editor-form");
-  editor_form .elements.copy.addEventListener("click", () => {
-    editor_form.elements.output.select();
-    document.execCommand("copy");
-  });
 
   const editor = new BezierEditor(editor_margin);
 
