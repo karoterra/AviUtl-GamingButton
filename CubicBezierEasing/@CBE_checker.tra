@@ -1,0 +1,6 @@
+@テキストから
+-- レイヤーを指定する
+--param:1
+local CBE = require("CubicBezierEasing")
+local beziers = CBE.easings:get(obj.getpoint("param"))
+return CBE.trackbarForEachKeyframe(obj, beziers)

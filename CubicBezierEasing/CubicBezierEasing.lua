@@ -1,3 +1,5 @@
+local CBE = {}
+
 local eps = 1e-9
 
 --[[
@@ -178,6 +180,29 @@ local function multiCubicBezierEasing(t, points)
 end
 
 --[[
+    タイムライン上に置いたテキストを参照してトラックバーにイージングを掛けるため
+]]
+local Easings = {}
+
+function Easings.new()
+    return setmetatable({
+        easings = {}
+    }, {__index = Easings})
+end
+
+function Easings:set(obj, beziers)
+    self.easings[obj.layer] = beziers
+end
+
+function Easings:get(index)
+    local beziers = self.easings[index]
+    if beziers == nil then
+        beziers = {{0, 0, 1, 1}}
+    end
+    return beziers
+end
+
+--[[
     AviUtlトラックバー用
     引数：
         obj：AviUtlスクリプトのobj
@@ -230,15 +255,19 @@ local function trackbarForEachKeyframe(obj, beziers)
     return st + (ed - st) * ratio
 end
 
-return {
-    cbrt = cbrt,
-    clip = clip,
-    solveLinear = solveLinear,
-    solveQuadratic = solveQuadratic,
-    solveCubic = solveCubic,
-    cubicBezierEasing = cubicBezierEasing,
-    multiCubicBezierEasing = multiCubicBezierEasing,
-    trackbar = trackbar,
-    trackbarMultiBezier = trackbarMultiBezier,
-    trackbarForEachKeyframe = trackbarForEachKeyframe,
-}
+CBE.cbrt = cbrt
+CBE.clip = clip
+CBE.solveLinear = solveLinear
+CBE.solveQuadratic = solveQuadratic
+CBE.solveCubic = solveCubic
+
+CBE.cubicBezierEasing = cubicBezierEasing
+CBE.multiCubicBezierEasing = multiCubicBezierEasing
+
+CBE.easings = Easings.new()
+
+CBE.trackbar = trackbar
+CBE.trackbarMultiBezier = trackbarMultiBezier
+CBE.trackbarForEachKeyframe = trackbarForEachKeyframe
+
+return CBE
