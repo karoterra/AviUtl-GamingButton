@@ -7,7 +7,8 @@ AviUtl ‚ÅƒQ[ƒ~ƒ“ƒOƒ{ƒ^ƒ“‚ğÄŒ»‚·‚é‚½‚ß‚ÌƒXƒNƒŠƒvƒg‚Å‚·B
 - Šg’£•ÒWPlugin version 0.92
 
 ## ƒCƒ“ƒXƒg[ƒ‹
-AviUtl Šg’£•ÒW‚Ì script ƒtƒHƒ‹ƒ_‚ÉˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ğƒRƒs[‚µ‚Ü‚·B
+AviUtl Šg’£•ÒW‚Ì script ƒtƒHƒ‹ƒ_‚ÉˆÈ‰º‚Ì‚à‚Ì‚ğƒRƒs[‚µ‚Ü‚·B
+- `CubicBezierEasing` ƒtƒHƒ‹ƒ_
 - `CubicBezierEasing.lua`
 - `@GamingButton.anm`
 
@@ -24,49 +25,12 @@ AviUtl Šg’£•ÒW‚Ì script ƒtƒHƒ‹ƒ_‚ÉˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ğƒRƒs[‚µ‚Ü‚·B
 ## 3ŸƒxƒWƒF‹ÈüƒC[ƒWƒ“ƒO
 •›Y•¨‚Æ‚µ‚Äƒgƒ‰ƒbƒNƒo[‚Å3ŸƒxƒWƒF‹Èü‚ªg‚¦‚é‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B
 
-ˆÈ‰º‚Ì‚æ‚¤‚Èƒgƒ‰ƒbƒNƒo[ƒXƒNƒŠƒvƒg‚ğ”äŠr“IŠÈ’P‚É‘‚¯‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
+ˆÈ‰º‚Ì‚æ‚¤‚ÈƒC[ƒWƒ“ƒO‚ğƒgƒ‰ƒbƒNƒo[ƒXƒNƒŠƒvƒgA‚Ü‚½‚Íƒ^ƒCƒ€ƒ‰ƒCƒ“ã‚ÌƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚©‚çİ’è‚Å‚«‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
 - 1–{‚Ì3ŸƒxƒWƒF‹Èü‚ğƒC[ƒWƒ“ƒOŠÖ”‚Ég‚¤
 - •¡”‚Ì3ŸƒxƒWƒF‹Èü‚ğ‚Â‚È‚°‚½‹Èü‚ğƒC[ƒWƒ“ƒOŠÖ”‚Ég‚¤
 - ’†ŠÔ“_‚²‚Æ‚Éˆá‚¤‹Èü‚ğƒC[ƒWƒ“ƒOŠÖ”‚Ég‚¤
 
-### ƒTƒ“ƒvƒ‹
-`@CBE.tra` ‚ğŠg’£•ÒW‚Ì script ƒtƒHƒ‹ƒ_‚ÉƒRƒs[‚·‚é‚ÆˆÈ‰º‚ÌƒC[ƒWƒ“ƒO‚ªƒgƒ‰ƒbƒNƒo[‚Åg‚¦‚é‚æ‚¤‚É‚È‚è‚Ü‚·B
-- ease
-- ease-in
-- ease-out
-- ease-in-out
-- easeInSine
-- easeOutSine
-- easeInOutSine
-- easeInQuad
-- easeOutQuad
-- easeInOutQuad
-- easeInCubic
-- easeOutCubic
-- easeInOutCubic
-- easeInQuart
-- easeOutQuart
-- easeInOutQuart
-- easeInQuint
-- easeOutQuint
-- easeInOutQuint
-- easeInExpo
-- easeOutExpo
-- easeInOutExpo
-- easeInCirc
-- easeOutCirc
-- easeInOutCirc
-- easeInBack
-- easeOutBack
-- easeInOutBack
-- MultiBezierSample1
-- ForEachKeyframeSample1
-
-‚±‚ê‚ç‚ÌƒTƒ“ƒvƒ‹‚ÍˆÈ‰º‚ğQl‚É‚µ‚Ü‚µ‚½B
-- [\<easing-function\> - CSS: ƒJƒXƒP[ƒfƒBƒ“ƒOƒXƒ^ƒCƒ‹ƒV[ƒg | MDN](https://developer.mozilla.org/ja/docs/Web/CSS/easing-function)
-- [ƒC[ƒWƒ“ƒOŠÖ”ƒ`[ƒgƒV[ƒg](https://easings.net/ja)
-
-### ƒJƒXƒ^ƒ}ƒCƒY
+### ƒgƒ‰ƒbƒNƒo[ƒXƒNƒŠƒvƒg
 [cubic-bezier.com](https://cubic-bezier.com/) ‚â
 `doc/index.html`
 ‚É‚ ‚éƒxƒWƒG‹ÈüƒGƒfƒBƒ^‚È‚Ç‚ğ—˜—p‚µ‚Äg‚¢‚½‚¢ƒxƒWƒF‹Èü‚ªŒ©‚Â‚©‚Á‚½‚çˆÈ‰º‚ÌƒTƒ“ƒvƒ‹‚ğ‘‚«Š·‚¦‚Ä‚¨D‚İ‚ÌƒXƒNƒŠƒvƒgƒtƒ@ƒCƒ‹i—áF`@3ŸƒxƒWƒFƒC[ƒWƒ“ƒO.tra`j‚É•Û‘¶‚µ‚Ü‚·B
@@ -102,6 +66,22 @@ return require("CubicBezierEasing").trackbarForEachKeyframe(obj, {
 })
 ```
 
+### ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚©‚çİ’è
+Šg’£•ÒW‚Ìƒ^ƒCƒ€ƒ‰ƒCƒ“ã‚É”z’u‚µ‚½ƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚ÉƒxƒWƒF‹Èü‚Ì§Œä“_ƒŠƒXƒg‚ğ‹Lq‚µA‚»‚ê‚ğQÆ‚·‚é‚±‚Æ‚Åƒgƒ‰ƒbƒNƒo[‚ÉƒC[ƒWƒ“ƒO‚ğŠ|‚¯‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+è‡‚ÍˆÈ‰º‚Ì’Ê‚è‚Å‚·B
+1. ƒ^ƒCƒ€ƒ‰ƒCƒ“ã‚ÉƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚ğ”z’u‚·‚éB
+2. ƒeƒLƒXƒg‚ÉˆÈ‰º‚Ì‚æ‚¤‚É‹Lq‚·‚éB
+    ```lua
+    <?
+    b = {
+      {1, 0, 0, 1},   -- ‘æ1’†ŠÔ“_‚ÌƒxƒWƒF‹Èü
+      {0, 0, 1, 1},   -- ‘æ2’†ŠÔ“_‚ÌƒxƒWƒF‹Èü
+      {0, 1, 1, 0},   -- ‘æ3’†ŠÔ“_‚ÌƒxƒWƒF‹Èü
+    }
+    require("CubicBezierEasing").easings:set(obj, b)?>
+    ```
+3. ƒC[ƒWƒ“ƒO‚ğŠ|‚¯‚½‚¢ƒIƒuƒWƒFƒNƒg‚Ìƒgƒ‰ƒbƒNƒo[‚ÉuƒeƒLƒXƒg‚©‚ç@CBE_checkerv‚ğ“K—p‚µAİ’è‚Éãq‚ÌƒeƒLƒXƒgƒIƒuƒWƒFƒNƒg‚ÌƒŒƒCƒ„[”Ô†‚ğ“ü—Í‚·‚éB
+
 ### Šù‘¶ƒXƒNƒŠƒvƒg‚©‚ç‚ÌˆÚA
 AviUtl‚Ìƒgƒ‰ƒbƒNƒo[‚Å3ŸƒxƒWƒF‹Èü‚ğg‚¤‚½‚ß‚Ì‘¼‚ÌƒXƒNƒŠƒvƒg‚Å’è‹`‚µ‚½‹Èü‚ğ–{ƒXƒNƒŠƒvƒg—p‚É•ÏŠ·‚·‚é‚½‚ß‚Ìƒc[ƒ‹i`doc/index.html`j‚ğ—pˆÓ‚µ‚Ü‚µ‚½B
 ‘Î‰ƒXƒNƒŠƒvƒg‚ÍˆÈ‰º‚Ì’Ê‚è‚Å‚·B
@@ -109,3 +89,43 @@ AviUtl‚Ìƒgƒ‰ƒbƒNƒo[‚Å3ŸƒxƒWƒF‹Èü‚ğg‚¤‚½‚ß‚Ì‘¼‚ÌƒXƒNƒŠƒvƒg‚Å’è‹`‚µ‚½‹Èü‚ğ–{ƒ
 - uƒ}ƒ‹ƒ`ƒxƒWƒF‹O“¹vi93j
 
 ‚±‚ê‚ğg‚¤‚±‚Æ‚ÅA‹Èü‚ğ•Ê‚ÌƒvƒƒWƒFƒNƒg‚Åg‚¢‚Ü‚í‚µ‚½‚è‚·‚é‚Ì‚ªŠÈ’P‚É‚È‚è‚Ü‚·B
+
+### ƒTƒ“ƒvƒ‹
+`@CBE_sample.tra` ‚ÉƒTƒ“ƒvƒ‹‚Æ‚µ‚ÄˆÈ‰º‚ÌƒC[ƒWƒ“ƒO‚ğ’è‹`‚µ‚Ä‚ ‚è‚Ü‚·B
+- 3ŸƒxƒWƒF‹Èü‚ğ1–{g‚¤—á
+    - ease
+    - ease-in
+    - ease-out
+    - ease-in-out
+    - easeInSine
+    - easeOutSine
+    - easeInOutSine
+    - easeInQuad
+    - easeOutQuad
+    - easeInOutQuad
+    - easeInCubic
+    - easeOutCubic
+    - easeInOutCubic
+    - easeInQuart
+    - easeOutQuart
+    - easeInOutQuart
+    - easeInQuint
+    - easeOutQuint
+    - easeInOutQuint
+    - easeInExpo
+    - easeOutExpo
+    - easeInOutExpo
+    - easeInCirc
+    - easeOutCirc
+    - easeInOutCirc
+    - easeInBack
+    - easeOutBack
+    - easeInOutBack
+- 3ŸƒxƒWƒF‹Èü‚ğ•¡”–{g‚¤—á
+    - MultiBezierSample1
+- ’†ŠÔ“_‚²‚Æ‚Éˆá‚¤‹Èü‚ğg‚¤—á
+    - ForEachKeyframeSample1
+
+‚±‚ê‚ç‚ÌƒTƒ“ƒvƒ‹‚ÍˆÈ‰º‚ğQl‚É‚µ‚Ü‚µ‚½B
+- [\<easing-function\> - CSS: ƒJƒXƒP[ƒfƒBƒ“ƒOƒXƒ^ƒCƒ‹ƒV[ƒg | MDN](https://developer.mozilla.org/ja/docs/Web/CSS/easing-function)
+- [ƒC[ƒWƒ“ƒOŠÖ”ƒ`[ƒgƒV[ƒg](https://easings.net/ja)
