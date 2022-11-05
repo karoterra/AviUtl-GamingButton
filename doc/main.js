@@ -19,12 +19,12 @@ function buildMultiBezierCode(points, heuristic) {
   if (heuristic) {  // 見やすく出力する
     points_join = "{\n";
     for (let i = 0; i < points_str.length; i += 2) {
-      points_join += "  " + points_str.slice(i, i + 4).join(", ") + "\n";
+      points_join += "  " + points_str.slice(i, i + 4).join(", ") + ",\n";
       i += 4;
       if (i >= points_str.length) {
         break;
       }
-      points_join += "  " + points_str.slice(i, i + 2).join(", ") + "\n";
+      points_join += "  " + points_str.slice(i, i + 2).join(", ") + ",\n";
     }
     points_join += "}";
   } else {  // 1行で出力する
@@ -41,12 +41,12 @@ function buildBezierCodeForTextObject(points, heuristic) {
   if (heuristic) {  // 見やすく出力する
     points_join = "{\n";
     for (let i = 0; i < points_str.length; i += 2) {
-      points_join += "  " + points_str.slice(i, i + 4).join(", ") + "\n";
+      points_join += "  " + points_str.slice(i, i + 4).join(", ") + ",\n";
       i += 4;
       if (i >= points_str.length) {
         break;
       }
-      points_join += "  " + points_str.slice(i, i + 2).join(", ") + "\n";
+      points_join += "  " + points_str.slice(i, i + 2).join(", ") + ",\n";
     }
     points_join += "}";
   } else {  // シンプルに出力する
